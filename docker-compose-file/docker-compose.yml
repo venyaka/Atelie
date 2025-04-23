@@ -1,0 +1,43 @@
+name: "atelie"
+
+services:
+
+#  backend:
+#    image: backend:0.0.1
+#    build:
+#      context: ..
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8181:8181"
+#    depends_on:
+#      - db
+#    environment:
+#      - SERVER_PORT= 8181
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://db/polyclinic
+#    container_name: polyclinic-backend
+#
+#  db:
+#    image: postgres:12.12-alpine
+#    ports:
+#      - "9876:5432"
+#    volumes:
+#      - /home/user/atelie/pgdata_ci:/var/lib/postgresql/data
+#      - ./sql/create_database_atelie_logs.sql:/docker-entrypoint-initdb.d/create_database_polyclinic_logs.sql
+#
+#    environment:
+#      POSTGRES_USER: ${POSTGRES_USER}
+#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#      POSTGRES_DB: ${POSTGRES_DB}
+#      PGDATA: "/var/lib/postgresql/data/pgdata"
+#    container_name: polyclinic-db
+#    restart: always
+#
+#  pgadmin:
+#    container_name: polyclinic-pgadmin4
+#    image: dpage/pgadmin4
+#    restart: always
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+#      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+#    ports:
+#      - "5050:80"

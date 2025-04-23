@@ -1,0 +1,1 @@
+CREATE DATABASE atelie_logs;
