@@ -75,7 +75,7 @@ public class User implements UserDetails {
         this.dateCreate = LocalDateTime.now();
         this.isSuspicious = Boolean.FALSE;
         if (roles.isEmpty()) {
-            roles.add(Role.USER);
+            roles.add(Role.CLIENT);
         }
     }
 

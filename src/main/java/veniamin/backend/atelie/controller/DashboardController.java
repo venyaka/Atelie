@@ -1,0 +1,13 @@
+package veniamin.backend.atelie.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class DashboardController {
+
+    @GetMapping("/dashboard")
+    public String showDashboard() {
+        return "dashboard"; // ищет dashboard.html в папке templates
+    }
+}

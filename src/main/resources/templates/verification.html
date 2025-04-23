@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Подтверждение</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Подтверждение Email</h2>
+    <form th:action="@{/authorize/verificateCode}" method="post" class="mx-auto col-4 mb-4">
+        <div class="mb-3">
+            <label class="form-label">Введите Email</label>
+            <input type="email" name="email" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-info w-100">Отправить код</button>
+    </form>
+
+    <form th:action="@{/authorize/verification}" method="post" class="mx-auto col-4">
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Код подтверждения</label>
+            <input type="text" name="verificationToken" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Подтвердить</button>
+    </form>
+</div>
+</body>
+</html>
