@@ -16,13 +16,13 @@ import java.util.Optional;
 public class ComplicationServiceImpl implements ComplicationService {
     private final ComplicationRepository repository;
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','TAILOR','CLIENT')")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','CUTTER','CLIENT')")
     public List<Complication> getAll() { return repository.findAll(); }
 
     @PreAuthorize("hasRole('ADMIN')")
     public Complication save(Complication entity) { return repository.save(entity); }
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','TAILOR','CLIENT')")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','CUTTER','CLIENT')")
     public Optional<Complication> getById(Integer id) { return repository.findById(id); }
 
     @PreAuthorize("hasRole('ADMIN')")

@@ -16,13 +16,13 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository repository;
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','TAILOR','CLIENT')")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','CUTTER','CLIENT')")
     public List<Product> getAll() { return repository.findAll(); }
 
     @PreAuthorize("hasRole('ADMIN')")
     public Product save(Product entity) { return repository.save(entity); }
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','TAILOR','CLIENT')")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','CUTTER','CLIENT')")
     public Optional<Product> getById(Integer id) { return repository.findById(id); }
 
     @PreAuthorize("hasRole('ADMIN')")

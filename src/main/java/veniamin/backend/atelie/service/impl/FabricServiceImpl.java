@@ -16,13 +16,13 @@ import java.util.Optional;
 public class FabricServiceImpl implements FabricService {
     private final FabricRepository repository;
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','TAILOR','CLIENT')")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','CUTTER','CLIENT')")
     public List<Fabric> getAll() { return repository.findAll(); }
 
     @PreAuthorize("hasRole('ADMIN')")
     public Fabric save(Fabric entity) { return repository.save(entity); }
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','TAILOR','CLIENT')")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','CUTTER','CLIENT')")
     public Optional<Fabric> getById(Integer id) { return repository.findById(id); }
 
     @PreAuthorize("hasRole('ADMIN')")

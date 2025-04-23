@@ -16,13 +16,13 @@ import java.util.Optional;
 public class CutterCategoryServiceImpl implements CutterCategoryService {
     private final CutterCategoryRepository repository;
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','TAILOR')")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','CUTTER')")
     public List<CutterCategory> getAll() { return repository.findAll(); }
 
     @PreAuthorize("hasRole('ADMIN')")
     public CutterCategory save(CutterCategory entity) { return repository.save(entity); }
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','TAILOR')")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','CUTTER')")
     public Optional<CutterCategory> getById(Integer id) { return repository.findById(id); }
 
     @PreAuthorize("hasRole('ADMIN')")

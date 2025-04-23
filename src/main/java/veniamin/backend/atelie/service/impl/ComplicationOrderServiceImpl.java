@@ -17,13 +17,13 @@ import java.util.Optional;
 public class ComplicationOrderServiceImpl implements ComplicationOrderService {
     private final ComplicationOrderRepository repository;
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','TAILOR','CLIENT')")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','CUTTER','CLIENT')")
     public List<ComplicationOrder> getAll() { return repository.findAll(); }
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','TAILOR')")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','CUTTER')")
     public ComplicationOrder save(ComplicationOrder entity) { return repository.save(entity); }
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','TAILOR','CLIENT')")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','CUTTER','CLIENT')")
     public Optional<ComplicationOrder> getById(ComplicationOrderId id) { return repository.findById(id); }
 
     @PreAuthorize("hasRole('ADMIN')")

@@ -16,13 +16,13 @@ import java.util.Optional;
 public class CostOrderServiceImpl implements CostOrderService {
     private final CostOrderRepository repository;
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','TAILOR','CLIENT')")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','CUTTER','CLIENT')")
     public List<CostOrder> getAll() { return repository.findAll(); }
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','TAILOR')")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','CUTTER')")
     public CostOrder save(CostOrder entity) { return repository.save(entity); }
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','TAILOR','CLIENT')")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','CUTTER','CLIENT')")
     public Optional<CostOrder> getById(Integer id) { return repository.findById(id); }
 
     @PreAuthorize("hasRole('ADMIN')")

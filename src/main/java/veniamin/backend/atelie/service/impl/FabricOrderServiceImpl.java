@@ -17,13 +17,13 @@ import java.util.Optional;
 public class FabricOrderServiceImpl implements FabricOrderService {
     private final FabricOrderRepository repository;
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','TAILOR','CLIENT')")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','CUTTER','CLIENT')")
     public List<FabricOrder> getAll() { return repository.findAll(); }
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','TAILOR')")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','CUTTER')")
     public FabricOrder save(FabricOrder entity) { return repository.save(entity); }
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','TAILOR','CLIENT')")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','CUTTER','CLIENT')")
     public Optional<FabricOrder> getById(FabricOrderId id) { return repository.findById(id); }
 
     @PreAuthorize("hasRole('ADMIN')")
