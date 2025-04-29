@@ -43,15 +43,16 @@ public class UserServiceImpl implements UserService {
 //
 //    private final FileRepository fileRepository;
 
-    private static final Logger loggerUsers = LoggerFactory.getLogger("usersLogger");
-    private static final Logger loggerAuth = LoggerFactory.getLogger("authLogger");
-    private static final Logger loggerFile = LoggerFactory.getLogger("fileLogger");
+//    private static final Logger loggerUsers = LoggerFactory.getLogger("usersLogger");
+//    private static final Logger loggerAuth = LoggerFactory.getLogger("authLogger");
+//    private static final Logger loggerFile = LoggerFactory.getLogger("fileLogger");
 
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        System.out.println("loadUserByUsername " + "email " + email);
         return userRepository
-                .findByEmail(username)
+                .findByEmail(email)
                 .orElseThrow(() -> new NotFoundException(NotFoundError.USER_NOT_FOUND));
     }
 

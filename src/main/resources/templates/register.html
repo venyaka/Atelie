@@ -10,11 +10,11 @@
     <h2 class="text-center mb-4">Регистрация</h2>
     <form th:action="@{/authorize/register}" th:object="${registerDTO}" method="post" class="mx-auto col-4">
         <div class="mb-3">
-            <label class="form-label">Имя пользователя</label>
+            <label class="form-label">Имя</label>
             <input type="text" th:field="*{name}" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label class="form-label">Имя пользователя</label>
+            <label class="form-label">Фамилия</label>
             <input type="text" th:field="*{surname}" class="form-control" required>
         </div>
         <div class="mb-3">

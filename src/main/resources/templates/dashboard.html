@@ -13,7 +13,8 @@
         <strong>Ваша роль(и):</strong>
         <span th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="badge bg-danger">ADMIN</span>
         <span th:if="${#authorization.expression('hasRole(''MANAGER'')')}" class="badge bg-primary">MANAGER</span>
-        <span th:if="${#authorization.expression('hasRole(''CUTTER'')')}" class="badge bg-success">TAILOR</span>
+        <span th:if="${#authorization.expression('hasRole(''CUTTER'')')}" class="badge bg-success">CUTTER</span>
+        <span th:if="${#authorization.expression('hasRole(''CLIENT'')')}" class="badge bg-success">CLIENT</span>
     </div>
 
     <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="card mb-3">
@@ -30,10 +31,10 @@
         </div>
     </div>
 
-    <div th:if="${#authorization.expression('hasRole(''CUTTER'')')}" class="card mb-3">
+    <div th:if="${#authorization.expression('hasAnyRole(''MANAGER'', ''CLIENT'', ''CUTTER'')')}" class="card mb-3">
         <div class="card-body">
-            <h5 class="card-title">Мои заказы</h5>
-            <a href="/orders/my" class="btn btn-success">Перейти к заказам</a>
+            <h5 class="card-title">Таблицы</h5>
+            <a href="/tables" class="btn btn-success">Перейти к таблицам</a>
         </div>
     </div>
 

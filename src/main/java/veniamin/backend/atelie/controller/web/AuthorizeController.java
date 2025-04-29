@@ -1,18 +1,15 @@
-package veniamin.backend.atelie.controller;
+package veniamin.backend.atelie.controller.web;
 
 
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import veniamin.backend.atelie.constant.PathConstants;
 import veniamin.backend.atelie.dto.request.RegisterReqDTO;
 import veniamin.backend.atelie.dto.request.UserAuthorizeReqDTO;
-import veniamin.backend.atelie.dto.response.TokenRespDTO;
 import veniamin.backend.atelie.service.AuthorizeService;
 
 @Controller
@@ -23,19 +20,11 @@ public class AuthorizeController {
     private final AuthorizeService authorizeService;
 
     @GetMapping("/login")
-    public String loginPage() {
-        return "login"; // без .html — Thymeleaf сам его найдёт в папке templates
-    }
+    public String login(Model model) {
 
-    @PostMapping("/login")
-    public String dashboardPage(HttpServletRequest request,
-                                Model model) {
-        try {
-            return "redirect:/dashboard";
-        } catch (Exception e) {
-            model.addAttribute("error", "Ошибка подтверждения: " + e.getMessage());
-            return "login";
-        }
+        UserAuthorizeReqDTO authorizeReqDTO = new UserAuthorizeReqDTO();
+        model.addAttribute("authorizeReqDTO", authorizeReqDTO);
+        return "login";
     }
 
     @GetMapping("/register")
@@ -57,19 +46,20 @@ public class AuthorizeController {
         }
     }
 
-    @GetMapping("/verificate")
-    public String verificationForm() {
-        return "verification"; // templates/verification.html
-    }
-
-    @PostMapping("/verificateCode")
-    public String sendVerificationCode(@RequestParam String email,
-                                       HttpServletRequest request,
-                                       Model model) {
-        authorizeService.sendVerificationCode(email, request);
-        model.addAttribute("message", "Код подтверждения отправлен на почту.");
-        return "verification";
-    }
+//    @PostMapping("/verification")
+//    public String verificationForm(@RequestParam String email, @RequestParam String token) {
+//        authorizeService.verificateUser(email, token);
+//        return "verification"; // templates/verification.html
+//    }
+//
+//    @PostMapping("/verificateCode")
+//    public String sendVerificationCode(@RequestParam String email,
+//                                       HttpServletRequest request,
+//                                       Model model) {
+//        authorizeService.sendVerificationCode(email, request);
+//        model.addAttribute("message", "Код подтверждения отправлен на почту.");
+//        return "verification";
+//    }
 
     @RequestMapping(value = "/verification", method = { RequestMethod.GET, RequestMethod.POST })
     public String verificateUser(@RequestParam String email,
@@ -78,7 +68,7 @@ public class AuthorizeController {
                                  Model model) {
         try {
             authorizeService.verificateUser(email, token);
-            return "redirect:/dashboard";
+            return "redirect:/login";
         } catch (Exception e) {
             model.addAttribute("error", "Ошибка подтверждения: " + e.getMessage());
             return "verification";

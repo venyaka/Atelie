@@ -27,7 +27,7 @@
 //    private final JwtUtils jwtUtils;
 //
 //    @Override
-//    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 //        String token = request.getHeader("Authorization");
 //        if (!request.getRequestURI().startsWith("/public") && token == null) {
 //            throw new AuthorizeException(AuthorizedError.NOT_CORRECT_TOKEN);
@@ -54,6 +54,10 @@
 //
 //    @Override
 //    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-//        return request.getRequestURI().startsWith(PathConstants.AUTHORIZE_CONTROLLER_PATH);
+//        return request.getRequestURI().startsWith(PathConstants.AUTHORIZE_CONTROLLER_PATH)
+//                || request.getRequestURI().startsWith("/css")
+//                || request.getRequestURI().startsWith("/js")
+//                || request.getRequestURI().startsWith("/images")
+//                || request.getRequestURI().equals("/favicon.ico");
 //    }
 //}
