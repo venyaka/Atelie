@@ -73,7 +73,6 @@ public class AuthorizeServiceImpl implements AuthorizeService {
 
         logsUtils.log(loggerAuth, "Authorize user - " + userEmail);
 
-        sessionService.saveNewSession(user.getId());
 
         return new ResponseEntity<>(tokenDTO, HttpStatus.OK);
     }

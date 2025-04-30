@@ -65,7 +65,8 @@ public class User implements UserDetails {
     @Column(name = "user_role")
     private Set<Role> roles = new HashSet<>();
 
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<UserDeniedTable> deniedTables;
 
     @PrePersist
     public void prePersist() {
@@ -77,6 +78,11 @@ public class User implements UserDetails {
         if (roles.isEmpty()) {
             roles.add(Role.ROLE_CLIENT);
         }
+    }
+
+    public boolean isTableDenied(String tableName) {
+        return deniedTables != null &&
+                deniedTables.stream().anyMatch(dt -> dt.getTableName().equals(tableName));
     }
 
     @PreUpdate

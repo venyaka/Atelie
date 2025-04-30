@@ -20,14 +20,21 @@
     <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="card mb-3">
         <div class="card-body">
             <h5 class="card-title">Управление правами</h5>
-            <a href="/admin/roles" class="btn btn-danger">Назначить/отозвать роли</a>
+            <a href="/admin/permissions" class="btn btn-danger">Назначить/отозвать роли</a>
         </div>
     </div>
 
-    <div th:if="${#authorization.expression('hasRole(''MANAGER'')')}" class="card mb-3">
+    <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">Резервирование и восстановление</h5>
+            <a href="/admin/backup" class="btn btn-danger">Создать/восстановить БД</a>
+        </div>
+    </div>
+
+    <div th:if="${#authorization.expression('hasAnyRole(''MANAGER'', ''CUTTER'')')}" class="card mb-3">
         <div class="card-body">
             <h5 class="card-title">Отчёты</h5>
-            <a href="/reports" class="btn btn-primary">Просмотреть отчёты</a>
+            <a href="/manager/reports" class="btn btn-primary">Просмотреть отчёты</a>
         </div>
     </div>
 

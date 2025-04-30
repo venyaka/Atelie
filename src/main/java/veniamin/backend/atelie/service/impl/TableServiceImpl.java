@@ -39,6 +39,8 @@ public class TableServiceImpl implements TableService {
         User user = optionalUser.get();
         List<Role> roles = (List<Role>) auth.getAuthorities();
 
+        if (user.isTableDenied(table)) return data;
+
         for (Role role : roles) {
             if (RoleAccessConstants.PERMISSIONS.get(role).get(selectOperation).contains(table)) {
                 return jdbcTemplate.queryForList("SELECT * FROM " + table);

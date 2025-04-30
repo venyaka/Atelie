@@ -25,12 +25,6 @@ public class MailServiceImpl implements MailService {
 
     private static final Logger loggerMail = LoggerFactory.getLogger("mailLogger");
 
-//    @Value("${link.to-verify-user}")
-//    private String linkToVerify;
-//
-//    @Value("${link.to-change-password}")
-//    private String linkToRestorePassword;
-
     @Value("${sender.mail}")
     private String fromMail;
 

@@ -32,17 +32,9 @@ import java.util.Arrays;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @Configuration
-//@EnableMethodSecurity
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
-//    private final JwtTokenFilter jwtTokenFilter;
-
-//    private final RefreshTokenFilter refreshTokenFilter;
-
-    private final ExceptionHandlerFilter exceptionHandlerFilter;
-
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -69,6 +61,8 @@ public class SecurityConfig {
                         .requestMatchers("authorize/**").permitAll()
                         .requestMatchers("/dashboard", "/dashboard/**").hasAnyRole("ADMIN", "MANAGER", "CUTTER", "CLIENT")
                         .requestMatchers("/tables", "/tables/**").hasAnyRole("ADMIN", "MANAGER", "CUTTER", "CLIENT")
+                        .requestMatchers("/manager", "/manager/**").hasAnyRole("MANAGER")
+                        .requestMatchers("/admin", "/admin/**").hasAnyRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/tasks/**").authenticated()
                         .requestMatchers("/tasks/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()

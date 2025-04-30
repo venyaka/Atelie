@@ -46,21 +46,6 @@ public class AuthorizeController {
         }
     }
 
-//    @PostMapping("/verification")
-//    public String verificationForm(@RequestParam String email, @RequestParam String token) {
-//        authorizeService.verificateUser(email, token);
-//        return "verification"; // templates/verification.html
-//    }
-//
-//    @PostMapping("/verificateCode")
-//    public String sendVerificationCode(@RequestParam String email,
-//                                       HttpServletRequest request,
-//                                       Model model) {
-//        authorizeService.sendVerificationCode(email, request);
-//        model.addAttribute("message", "Код подтверждения отправлен на почту.");
-//        return "verification";
-//    }
-
     @RequestMapping(value = "/verification", method = { RequestMethod.GET, RequestMethod.POST })
     public String verificateUser(@RequestParam String email,
                                  @RequestParam String token,
