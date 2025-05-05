@@ -38,10 +38,18 @@
         </div>
     </div>
 
+
     <div th:if="${#authorization.expression('hasAnyRole(''MANAGER'', ''CLIENT'', ''CUTTER'')')}" class="card mb-3">
         <div class="card-body">
             <h5 class="card-title">Таблицы</h5>
             <a href="/tables" class="btn btn-success">Перейти к таблицам</a>
+        </div>
+    </div>
+
+    <div th:if="${#authorization.expression('hasAnyRole(''MANAGER'', ''CUTTER'', ''CLIENT'')')}" class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">Запросы</h5>
+            <a href="/dashboard/queries" class="btn btn-primary">Запросы</a>
         </div>
     </div>
 

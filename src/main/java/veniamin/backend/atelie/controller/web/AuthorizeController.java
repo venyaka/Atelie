@@ -30,7 +30,7 @@ public class AuthorizeController {
     @GetMapping("/register")
     public String registerForm(Model model) {
         model.addAttribute("registerDTO", new RegisterReqDTO());
-        return "register"; // templates/register.html
+        return "register";
     }
 
     @PostMapping("/register")

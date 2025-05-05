@@ -61,6 +61,7 @@ public class SecurityConfig {
                         .requestMatchers("authorize/**").permitAll()
                         .requestMatchers("/dashboard", "/dashboard/**").hasAnyRole("ADMIN", "MANAGER", "CUTTER", "CLIENT")
                         .requestMatchers("/tables", "/tables/**").hasAnyRole("ADMIN", "MANAGER", "CUTTER", "CLIENT")
+                        .requestMatchers("/dashboard/queries", "/dashboard/queries/**").hasAnyRole("MANAGER", "CUTTER", "CLIENT")
                         .requestMatchers("/manager", "/manager/**").hasAnyRole("MANAGER")
                         .requestMatchers("/admin", "/admin/**").hasAnyRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/tasks/**").authenticated()
