@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление таблицами</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <form th:action="@{/logout}" method="post">
+        <button type="submit" class="btn btn-outline-dark">Выйти</button>
+    </form>
+    <h1 class="mb-4">Управление таблицами</h1>
+
+    <!-- Меню выбора таблицы -->
+    <div class="mb-4">
+        <form th:action="@{/tables}" method="get">
+            <select class="form-select" name="table" onchange="this.form.submit()">
+                <option th:if="${#authorization.expression('hasAnyRole(''MANAGER'')')}"
+                        th:value="'cutter_category'" th:selected="${table == 'cutter_category'}">Категории закройщиков</option>
+
+                <option th:if="${#authorization.expression('hasAnyRole(''MANAGER'')')}"
+                        th:value="'cutter'" th:selected="${table == 'cutter'}">Закройщики</option>
+
+                <option th:if="${#authorization.expression('hasAnyRole(''MANAGER'', ''CLIENT'', ''CUTTER'')')}"
+                        th:value="'fabric_type'" th:selected="${table == 'fabric_type'}">Типы ткани</option>
+
+                <option th:if="${#authorization.expression('hasAnyRole(''MANAGER'', ''CLIENT'', ''CUTTER'')')}"
+                        th:value="'product'" th:selected="${table == 'product'}">Изделия</option>
+
+                <option th:if="${#authorization.expression('hasAnyRole(''MANAGER'', ''CLIENT'', ''CUTTER'')')}"
+                        th:value="'fabric'" th:selected="${table == 'fabric'}">Ткани</option>
+
+                <option th:if="${#authorization.expression('hasAnyRole(''MANAGER'', ''CLIENT'', ''CUTTER'')')}"
+                        th:value="'complication'" th:selected="${table == 'complication'}">Усложнения</option>
+
+                <option th:if="${#authorization.expression('hasAnyRole(''MANAGER'', ''CLIENT'', ''CUTTER'')')}"
+                        th:value="'order_'" th:selected="${table == 'order_'}">Заказы</option>
+
+                <option th:if="${#authorization.expression('hasAnyRole(''MANAGER'', ''CLIENT'', ''CUTTER'')')}"
+                        th:value="'complication_order'" th:selected="${table == 'complication_order'}">Усложнения заказа</option>
+
+                <option th:if="${#authorization.expression('hasAnyRole(''MANAGER'', ''CLIENT'', ''CUTTER'')')}"
+                        th:value="'fabric_order'" th:selected="${table == 'fabric_order'}">Ткани заказа</option>
+
+                <option th:if="${#authorization.expression('hasAnyRole(''MANAGER'', ''CLIENT'', ''CUTTER'')')}"
+                        th:value="'cost_order'" th:selected="${table == 'cost_order'}">Стоимость заказа</option>
+
+                <option th:if="${#authorization.expression('hasAnyRole(''MANAGER'')')}"
+                        th:value="'cash'" th:selected="${table == 'cash'}">Касса</option>
+            </select>
+        </form>
+    </div>
+
+    <!-- Кнопка Добавить -->
+    <div th:if="${#authorization.expression('hasRole(''MANAGER'')') or
+             (#authorization.expression('hasRole(''CUTTER'')') and
+              (table == 'fabric' or table == 'product' or table == 'fabric_type' or table == 'complication'))}">
+        <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addModal">
+            Добавить запись
+        </button>
+    </div>
+
+    <!-- Таблица данных -->
+    <div th:if="${items != null}">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+            <tr>
+                <th th:each="field : ${fields}" th:text="${field}"></th>
+                <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${items}">
+                <td th:each="field : ${fields}" th:text="${item.get(field)}"></td>
+                <td>
+                    <!-- Кнопка Редактировать -->
+                    <button th:if="${#authorization.expression('hasRole(''MANAGER'')') or
+             (#authorization.expression('hasRole(''CUTTER'')') and
+              (table == 'fabric' or table == 'product' or table == 'fabric_type' or table == 'complication'))}"
+                            type="button" class="btn btn-warning btn-sm"
+                            data-bs-toggle="modal"
+                            th:data-bs-target="${'#editModal-' + item.get('id')}">
+                        Редактировать
+                    </button>
+
+                    <!-- Кнопка Удалить -->
+                    <form th:if="${(#authorization.expression('hasRole(''MANAGER'')') and
+                    (table == 'fabric_type' or table == 'product' or table == 'fabric' or table == 'complication' or table == 'complication' or table == 'order_' or table == 'complication_order' or table == 'fabric_order' or table == 'cost_order' or table == 'cash')) or
+             (#authorization.expression('hasRole(''CUTTER'')') and
+              (table == 'fabric' or table == 'product' or table == 'fabric_type' or table == 'complication'))}"
+                            th:action="@{/tables/delete}" method="post" style="display:inline;">
+                        <input type="hidden" name="table" th:value="${table}" />
+                        <input type="hidden" name="id" th:value="${item.get('id')}" />
+                        <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- Модальное окно Добавить -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form th:action="@{/tables/add}" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">Добавить запись</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="table" th:value="${table}" />
+                    <div th:each="field : ${fields}">
+                        <div class="mb-3">
+                            <label th:text="${field}" class="form-label"></label>
+                            <input type="text" class="form-control" th:name="${field}">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Модальные окна Редактировать для каждой записи -->
+<div th:each="item : ${items}">
+    <div class="modal fade" th:id="${'editModal-' + item.get('id')}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <form th:action="@{/tables/edit}" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Редактировать запись</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="table" th:value="${table}" />
+                        <input type="hidden" name="id" th:value="${item.get('id')}" />
+                        <div th:each="field : ${fields}">
+                            <div class="mb-3">
+                                <label th:text="${field}" class="form-label"></label>
+                                <input type="text" class="form-control" th:name="${field}"
+                                       th:value="${item.get(field)}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Запросы</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+    <h2 class="mb-4">Выполнение запросов</h2>
+
+    <!-- 1. Заказы по фамилии -->
+    <div class="mb-5">
+        <h4>1. Все заказы заказчика с фамилией</h4>
+        <form onsubmit="fetchBySurname(event)">
+            <div class="input-group mb-2">
+                <input type="text" class="form-control" id="surnameInput" placeholder="Введите фамилию">
+                <button type="submit" class="btn btn-primary">Выполнить</button>
+            </div>
+        </form>
+        <pre id="surnameResult" class="bg-light p-2 border rounded"></pre>
+    </div>
+
+    <!-- 2. Кол-во заказов у закройщиков -->
+    <div class="mb-5">
+        <h4>2. Количество заказов у каждого закройщика (текущий год)</h4>
+        <button onclick="fetchCutterOrders()" class="btn btn-primary mb-2">Выполнить</button>
+        <pre id="cutterResult" class="bg-light p-2 border rounded"></pre>
+    </div>
+
+    <!-- 3. Кол-во выкупленной ткани по артикулу -->
+    <div class="mb-5">
+        <h4>3. Количество выкупленной ткани по артикулу</h4>
+        <form onsubmit="fetchFabricArticle(event)">
+            <div class="input-group mb-2">
+                <input type="text" class="form-control" id="articleInput" placeholder="Введите артикул">
+                <button type="submit" class="btn btn-primary">Выполнить</button>
+            </div>
+        </form>
+        <pre id="fabricResult" class="bg-light p-2 border rounded"></pre>
+    </div>
+
+    <!-- 4. Заказы по дате -->
+    <div class="mb-5">
+        <h4>4. Заказы, которые должны быть выполнены к дате</h4>
+        <form onsubmit="fetchDeadline(event)">
+            <div class="input-group mb-2">
+                <input type="date" class="form-control" id="deadlineInput">
+                <button type="submit" class="btn btn-primary">Выполнить</button>
+            </div>
+        </form>
+        <pre id="deadlineResult" class="bg-light p-2 border rounded"></pre>
+    </div>
+
+    <!-- 5. Категории изделий по месяцу -->
+    <div class="mb-5">
+        <h4>5. Категории изделий, заказываемые в месяце</h4>
+        <form onsubmit="fetchCategoriesByMonth(event)">
+            <div class="input-group mb-2">
+                <input type="number" min="1" max="12" class="form-control" id="monthInput" placeholder="Месяц (1-12)">
+                <button type="submit" class="btn btn-primary">Выполнить</button>
+            </div>
+        </form>
+        <pre id="categoryResult" class="bg-light p-2 border rounded"></pre>
+    </div>
+</div>
+
+<script>
+    function formatResult(result) {
+        return JSON.stringify(result, null, 2);
+    }
+
+    function fetchBySurname(event) {
+        event.preventDefault();
+        const surname = document.getElementById('surnameInput').value;
+        fetch(`/dashboard/queries/surname?surname=${surname}`)
+            .then(res => res.json())
+            .then(data => document.getElementById('surnameResult').textContent = formatResult(data));
+    }
+
+    function fetchCutterOrders() {
+        fetch(`/dashboard/queries/cutter-orders`)
+            .then(res => res.json())
+            .then(data => document.getElementById('cutterResult').textContent = formatResult(data));
+    }
+
+    function fetchFabricArticle(event) {
+        event.preventDefault();
+        const article = document.getElementById('articleInput').value;
+        fetch(`/dashboard/queries/fabric-article?article=${article}`)
+            .then(res => res.json())
+            .then(data => document.getElementById('fabricResult').textContent = formatResult(data));
+    }
+
+    function fetchDeadline(event) {
+        event.preventDefault();
+        const date = document.getElementById('deadlineInput').value;
+        fetch(`/dashboard/queries/deadline?deadline=${date}`)
+            .then(res => res.json())
+            .then(data => document.getElementById('deadlineResult').textContent = formatResult(data));
+    }
+
+    function fetchCategoriesByMonth(event) {
+        event.preventDefault();
+        const month = document.getElementById('monthInput').value;
+        fetch(`/dashboard/queries/product-categories?month=${month}`)
+            .then(res => res.json())
+            .then(data => document.getElementById('categoryResult').textContent = formatResult(data));
+    }
+</script>
+</body>
+</html>

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+//import veniamin.backend.atelie.configuration.RestTemplateConfig;
 import veniamin.backend.atelie.configuration.RestTemplateConfig;
 import veniamin.backend.atelie.constant.IpAddressesConstant;
 import veniamin.backend.atelie.dto.response.IpStackResponse;

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Управление правами</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body class="container mt-4">
+
+<h2>Управление правами пользователей</h2>
+
+<table class="table table-bordered mt-4">
+    <thead>
+    <tr>
+        <th>Пользователь</th>
+        <th>Роли</th>
+        <th>Доступы</th>
+        <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.email}">email</td>
+        <td>
+            <ul>
+                <li th:each="role : ${user.roles}" th:text="${role}"></li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li th:each="perm : ${user.permissions}" th:text="${perm}"></li>
+            </ul>
+        </td>
+        <td>
+            <!-- Кнопка Редактировать -->
+            <button class="btn btn-warning btn-sm" data-bs-toggle="modal" th:data-bs-target="${'#editModal-' + user.id}">
+                Редактировать
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Модальное окно редактирования -->
+<div th:each="user : ${users}">
+    <div class="modal fade" th:id="${'editModal-' + user.id}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form th:action="@{/permissions/update}" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Изменить права: <span th:text="${user.email}"></span></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="userId" th:value="${user.id}" />
+                        <label>Роли:</label>
+                        <div th:each="role : ${availableRoles}">
+                            <input type="checkbox" name="roles" th:value="${role}" th:checked="${user.roles.contains(role)}" />
+                            <span th:text="${role}"></span><br/>
+                        </div>
+                        <hr/>
+                        <label>Ограничения (DENY):</label>
+                        <div th:each="table : ${allTables}">
+                            <input type="checkbox" name="denies" th:value="${table}" th:checked="${user.deniedTables.contains(table)}" />
+                            <span th:text="${table}"></span><br/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
