@@ -1,4 +1,4 @@
-package veniamin.backend.atelie.controller;
+package veniamin.backend.atelie.controller.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
